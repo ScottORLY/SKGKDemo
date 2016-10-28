@@ -4,10 +4,6 @@ class PlayerCharacterComponent: GKComponent {
     
     var stateMachine: GKStateMachine?
     
-    lazy var node: SKNode? = {
-        return self.entity?.component(ofType: GKSKNodeComponent.self)?.node
-    }()
-    
     func moveTowards(dx: CGFloat) {
         if (node?.physicsBody?.velocity.dy)! < CGFloat(0.5) {
             stateMachine?.enter(WalkingState.self)
@@ -87,7 +83,7 @@ class JumpingState: CharacterState {
 class StandingState: CharacterState {
     
     override func didEnter(from previousState: GKState?) {
-        (node as? SKSpriteNode)?.texture = SKTexture(imageNamed: "alienYellow_stand")
+        (node as? SKSpriteNode)?.texture = SKTexture(imageNamed: "alienGreen_stand")
     }
     override func willExit(to nextState: GKState) {
         

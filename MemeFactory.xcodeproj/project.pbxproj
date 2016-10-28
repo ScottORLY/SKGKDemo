@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AE0BFD8D1DC3D6F8000285E7 /* GKComponentExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0BFD8C1DC3D6F8000285E7 /* GKComponentExtension.swift */; };
+		AE0BFD8F1DC3DD9D000285E7 /* EnemyAgent.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0BFD8E1DC3DD9C000285E7 /* EnemyAgent.swift */; };
 		AE4A16E61DC2ADE8001DA970 /* MyActions.sks in Resources */ = {isa = PBXBuildFile; fileRef = AE4A16E51DC2ADE8001DA970 /* MyActions.sks */; };
 		AE4A16E71DC2ADE8001DA970 /* MyActions.sks in Resources */ = {isa = PBXBuildFile; fileRef = AE4A16E51DC2ADE8001DA970 /* MyActions.sks */; };
 		AE4A16E81DC2ADE8001DA970 /* MyActions.sks in Resources */ = {isa = PBXBuildFile; fileRef = AE4A16E51DC2ADE8001DA970 /* MyActions.sks */; };
@@ -30,9 +32,6 @@
 		AEDB0D9F1DC01E960010E520 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEDB0D9E1DC01E960010E520 /* AppDelegate.swift */; };
 		AEDB0DA11DC01E960010E520 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEDB0DA01DC01E960010E520 /* GameViewController.swift */; };
 		AEDB0DA41DC01E960010E520 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AEDB0DA21DC01E960010E520 /* Main.storyboard */; };
-		AEDB0DA61DC01E960010E520 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = AEDB0D5B1DC01E960010E520 /* Actions.sks */; };
-		AEDB0DA71DC01E960010E520 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = AEDB0D5B1DC01E960010E520 /* Actions.sks */; };
-		AEDB0DA81DC01E960010E520 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = AEDB0D5B1DC01E960010E520 /* Actions.sks */; };
 		AEDB0DA91DC01E960010E520 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = AEDB0D5C1DC01E960010E520 /* GameScene.sks */; };
 		AEDB0DAB1DC01E960010E520 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = AEDB0D5C1DC01E960010E520 /* GameScene.sks */; };
 		AEDB0DAC1DC01E960010E520 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = AEDB0D5C1DC01E960010E520 /* GameScene.sks */; };
@@ -60,12 +59,13 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		AE0BFD8C1DC3D6F8000285E7 /* GKComponentExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GKComponentExtension.swift; sourceTree = "<group>"; };
+		AE0BFD8E1DC3DD9C000285E7 /* EnemyAgent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnemyAgent.swift; sourceTree = "<group>"; };
 		AE4A16E51DC2ADE8001DA970 /* MyActions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MyActions.sks; sourceTree = "<group>"; };
 		AE74081E1DC13D5F00292E40 /* PlayerCharacterComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerCharacterComponent.swift; sourceTree = "<group>"; };
 		AE83CD4F1DC284A800072B2F /* SideScrollingScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SideScrollingScene.swift; sourceTree = "<group>"; };
 		AE8A8D411DC273C400B2EC88 /* SideScrollingScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = SideScrollingScene.sks; sourceTree = "<group>"; };
 		AE8A8D431DC2741C00B2EC88 /* SideScrollTileSet.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = SideScrollTileSet.sks; sourceTree = "<group>"; };
-		AEDB0D5B1DC01E960010E520 /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
 		AEDB0D5C1DC01E960010E520 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
 		AEDB0D5D1DC01E960010E520 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		AEDB0D5E1DC01E960010E520 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -127,7 +127,6 @@
 			isa = PBXGroup;
 			children = (
 				AE4A16E51DC2ADE8001DA970 /* MyActions.sks */,
-				AEDB0D5B1DC01E960010E520 /* Actions.sks */,
 				AEDB0D5C1DC01E960010E520 /* GameScene.sks */,
 				AE8A8D411DC273C400B2EC88 /* SideScrollingScene.sks */,
 			);
@@ -138,6 +137,8 @@
 			isa = PBXGroup;
 			children = (
 				AE74081E1DC13D5F00292E40 /* PlayerCharacterComponent.swift */,
+				AE0BFD8C1DC3D6F8000285E7 /* GKComponentExtension.swift */,
+				AE0BFD8E1DC3DD9C000285E7 /* EnemyAgent.swift */,
 			);
 			name = Components;
 			sourceTree = "<group>";
@@ -323,7 +324,6 @@
 				AE8A8D441DC2741C00B2EC88 /* SideScrollTileSet.sks in Resources */,
 				AEDB0D6C1DC01E960010E520 /* Main.storyboard in Resources */,
 				AE4A16E61DC2ADE8001DA970 /* MyActions.sks in Resources */,
-				AEDB0DA61DC01E960010E520 /* Actions.sks in Resources */,
 				AE8A8D421DC273C400B2EC88 /* SideScrollingScene.sks in Resources */,
 				AEDB0D6F1DC01E960010E520 /* LaunchScreen.storyboard in Resources */,
 				AEDB0DB11DC01E960010E520 /* Assets.xcassets in Resources */,
@@ -340,7 +340,6 @@
 				AECCEF5B1DC27BDD00753172 /* SideScrollingScene.sks in Resources */,
 				AEDB0DB31DC01E960010E520 /* Assets.xcassets in Resources */,
 				AE8106C71DC27C1100AD245F /* SideScrollTileSet.sks in Resources */,
-				AEDB0DA71DC01E960010E520 /* Actions.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -354,7 +353,6 @@
 				AECCEF5C1DC27BDD00753172 /* SideScrollingScene.sks in Resources */,
 				AEDB0DB41DC01E960010E520 /* Assets.xcassets in Resources */,
 				AE8106C81DC27C1100AD245F /* SideScrollTileSet.sks in Resources */,
-				AEDB0DA81DC01E960010E520 /* Actions.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -365,8 +363,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AE0BFD8F1DC3DD9D000285E7 /* EnemyAgent.swift in Sources */,
 				AEDB0DAD1DC01E960010E520 /* GameScene.swift in Sources */,
 				AE83CD501DC284A800072B2F /* SideScrollingScene.swift in Sources */,
+				AE0BFD8D1DC3D6F8000285E7 /* GKComponentExtension.swift in Sources */,
 				AEF5A2A31DC26B3600373A0D /* Camera.swift in Sources */,
 				AEDB0D691DC01E960010E520 /* GameViewController.swift in Sources */,
 				AE74081F1DC13D5F00292E40 /* PlayerCharacterComponent.swift in Sources */,

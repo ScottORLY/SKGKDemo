@@ -1,11 +1,16 @@
 import SpriteKit
 import GameplayKit
 
-class SideScrollingScene: SKScene {
+class SideScrollingScene: SKScene, SKPhysicsContactDelegate {
     
     lazy var playerCharacterNode: SKNode? = {
         return self.childNode(withName: "//PlayerCharacter")
     }()
+    
+    lazy var slimeOneNode: SKNode? = {
+        return self.childNode(withName: "//Slime1")
+    }()
+    
     
     lazy var playerCharacherComponent: PlayerCharacterComponent? = {
         return self.playerCharacterNode?.entity?.component(ofType: PlayerCharacterComponent.self)
@@ -16,6 +21,10 @@ class SideScrollingScene: SKScene {
     }()
     
     static var gkScene: GKScene?
+    
+    var lastUpdate: TimeInterval = 0
+    
+    let agentSystem = GKComponentSystem(componentClass: GKAgent2D.self)
     
     class func newGameScene() -> SKScene {
         
@@ -35,16 +44,41 @@ class SideScrollingScene: SKScene {
         gkScene = gkscene
         scene.scaleMode = .aspectFill
         scene.setUpTileMapPhysics()
+        scene.physicsWorld.contactDelegate = scene
         return scene
+    }
+    
+    func didBegin(_ contact: SKPhysicsContact) {
+
     }
     
     override func didMove(to view: SKView) {
         
+        let graph = SideScrollingScene.gkScene?.graphs["SlimeGraph"]
+        let path = GKPath(graphNodes: (graph?.nodes)!, radius: 20.0)
+        path.isCyclical = true
+        print(graph?.nodes)
+        let goal = GKGoal(toFollow: path, maxPredictionTime: 1.5, forward: true)
+        let agent = GKAgent2D()
+        agent.behavior = GKBehavior(weightedGoals: [goal: 1])
+        let position = slimeOneNode?.position
+        agent.radius = 20.0
+        agent.maxSpeed = 100
+        agent.maxAcceleration = 50
+        agent.position = vector_float2(Float(position!.x), Float(position!.y))
+        agent.delegate = slimeOneNode?.entity?.component(ofType: EnemyAgent.self)
+        agentSystem.addComponent(agent)
     }
     
     override func update(_ currentTime: TimeInterval) {
+        if lastUpdate == 0 {
+            lastUpdate = currentTime
+        }
+        let delta = currentTime - lastUpdate
+        lastUpdate = currentTime
+        agentSystem.update(deltaTime: delta)
         for entity in (SideScrollingScene.gkScene?.entities)! {
-            entity.update(deltaTime: currentTime)
+            entity.update(deltaTime: delta)
         }
     }
     
@@ -74,6 +108,7 @@ class SideScrollingScene: SKScene {
         }
         let tileMapPhysicsBody = SKPhysicsBody(bodies: physicsBodies)
         tileMapPhysicsBody.isDynamic = false
+        tileMap?.physicsBody?.contactTestBitMask = 0
         tileMap?.physicsBody = tileMapPhysicsBody
     }
 }

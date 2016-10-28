@@ -52,6 +52,7 @@ class GameScene: SKScene {
     override func update(_ currentTime: TimeInterval) {
        camera?.position = (playerCharacterNode?.position)!
     }
+    
 }
 
 #if os(iOS) || os(tvOS)
