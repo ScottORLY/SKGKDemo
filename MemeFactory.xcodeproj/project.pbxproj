@@ -114,11 +114,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		AE7408281DC1432400292E40 /* Entities */ = {
+		AE4A16EB1DC2D3C9001DA970 /* Tile Sets */ = {
 			isa = PBXGroup;
 			children = (
+				AE8A8D431DC2741C00B2EC88 /* SideScrollTileSet.sks */,
+				AEDB0DC81DC01F450010E520 /* MyTileSet.sks */,
 			);
-			name = Entities;
+			name = "Tile Sets";
+			sourceTree = "<group>";
+		};
+		AE4A16EC1DC2D3DE001DA970 /* SKS FIles */ = {
+			isa = PBXGroup;
+			children = (
+				AE4A16E51DC2ADE8001DA970 /* MyActions.sks */,
+				AEDB0D5B1DC01E960010E520 /* Actions.sks */,
+				AEDB0D5C1DC01E960010E520 /* GameScene.sks */,
+				AE8A8D411DC273C400B2EC88 /* SideScrollingScene.sks */,
+			);
+			name = "SKS FIles";
 			sourceTree = "<group>";
 		};
 		AE7408291DC1432D00292E40 /* Components */ = {
@@ -143,18 +156,13 @@
 		AEDB0D5A1DC01E960010E520 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
-				AE4A16E51DC2ADE8001DA970 /* MyActions.sks */,
+				AE4A16EC1DC2D3DE001DA970 /* SKS FIles */,
 				AE7408291DC1432D00292E40 /* Components */,
-				AE7408281DC1432400292E40 /* Entities */,
-				AEDB0D5B1DC01E960010E520 /* Actions.sks */,
-				AEDB0D5C1DC01E960010E520 /* GameScene.sks */,
+				AE4A16EB1DC2D3C9001DA970 /* Tile Sets */,
 				AE83CD4F1DC284A800072B2F /* SideScrollingScene.swift */,
-				AE8A8D411DC273C400B2EC88 /* SideScrollingScene.sks */,
-				AE8A8D431DC2741C00B2EC88 /* SideScrollTileSet.sks */,
-				AEDB0DC81DC01F450010E520 /* MyTileSet.sks */,
 				AEDB0D5D1DC01E960010E520 /* GameScene.swift */,
-				AEDB0D5E1DC01E960010E520 /* Assets.xcassets */,
 				AEF5A2A21DC26B3600373A0D /* Camera.swift */,
+				AEDB0D5E1DC01E960010E520 /* Assets.xcassets */,
 			);
 			path = Shared;
 			sourceTree = "<group>";

@@ -55,11 +55,18 @@ class SideScrollingScene: SKScene {
             for row in 0..<(tileMap?.numberOfRows)! {
                 let tileDef = tileMap?.tileDefinition(atColumn: col, row: row)
                 let isEdgeTile = tileDef?.userData?["edgeTile"] as? Bool
+                let isHalfTile = tileDef?.userData?["halfTile"] as? Bool
                 if isEdgeTile ?? false {
+                    var tileSize = tileDef?.size
                     var center = tileMap?.centerOfTile(atColumn: col, row: row)
-                    center?.y -= 32.0
+                    if isHalfTile ?? false {
+                        tileSize?.height = (tileSize?.height)! / 2
+                    }
+                    else {
+                        center?.y -= 32.0
+                    }
                     center?.x -= 32.0
-                    let rect = CGRect(origin: center!, size: (tileDef?.size)!)
+                    let rect = CGRect(origin: center!, size: tileSize!)
                     let physicsBody = SKPhysicsBody(edgeLoopFrom: rect)
                     physicsBodies.append(physicsBody)
                 }

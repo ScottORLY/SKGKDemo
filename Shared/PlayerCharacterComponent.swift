@@ -12,6 +12,9 @@ class PlayerCharacterComponent: GKComponent {
         if (node?.physicsBody?.velocity.dy)! < CGFloat(0.5) {
             stateMachine?.enter(WalkingState.self)
         }
+        if (dx == CGFloat(0.0) && (node?.physicsBody?.velocity.dy)! < CGFloat(0.5))  {
+            self.stateMachine?.enter(StandingState.self)
+        }
         node?.physicsBody?.velocity.dx = dx
     }
     
@@ -32,7 +35,13 @@ class PlayerCharacterComponent: GKComponent {
             )
             stateMachine?.enter(StandingState.self)
         }
-
+        
+        let dx = node?.physicsBody?.velocity.dx
+        let dy = node?.physicsBody?.velocity.dy
+        if (dx! < CGFloat(0.5) && dx! > CGFloat(-0.5)) &&
+            (dy! < CGFloat(0.5) && dy! > CGFloat (-0.5)) {
+            stateMachine?.enter(StandingState.self)
+        }
     }
 }
 
@@ -67,6 +76,9 @@ class JumpingState: CharacterState {
     override func willExit(to nextState: GKState) {
         node?.removeAction(forKey: "jumping")
     }
+    override func update(deltaTime seconds: TimeInterval) {
+        print("update")
+    }
     override func isValidNextState(_ stateClass: AnyClass) -> Bool {
         return stateClass is WalkingState.Type || stateClass is StandingState.Type
     }
@@ -75,14 +87,7 @@ class JumpingState: CharacterState {
 class StandingState: CharacterState {
     
     override func didEnter(from previousState: GKState?) {
-        if previousState is JumpingState {
-            node?.removeAction(forKey: "jumping")
-            print("remove jump")
-        }
-        if previousState is WalkingState {
-            print("remove walk")
-            node?.removeAction(forKey: "walking")
-        }
+        (node as? SKSpriteNode)?.texture = SKTexture(imageNamed: "alienYellow_stand")
     }
     override func willExit(to nextState: GKState) {
         

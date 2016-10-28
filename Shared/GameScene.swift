@@ -60,38 +60,21 @@ extension GameScene {
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
-        
-        let playerLocation = playerCharacterNode?.position
-        for touch in touches {
-            let touchLocation = touch.location(in: self.scene!)
-            let dx = touchLocation.x - (playerLocation?.x)!
-            let dy = touchLocation.y - (playerLocation?.y)!
-            let vector = CGVector(dx: dx, dy: dy)
-            //playerCharacherComponent?.moveTowards(vector: vector)
-        }
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        let playerLocation = playerCharacterNode?.position
-        for touch in touches {
-            let touchLocation = touch.location(in: self.scene!)
-            let dx = touchLocation.x - (playerLocation?.x)!
-            let dy = touchLocation.y - (playerLocation?.y)!
-            let vector = CGVector(dx: dx, dy: dy)
-            //playerCharacherComponent?.moveTowards(vector: vector)
-        }
+        super.touchesMoved(touches, with: event)
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        let zeroVector = CGVector(dx: 0.0, dy: 0.0)
-        //playerCharacherComponent?.moveTowards(vector: zeroVector)
+        super.touchesEnded(touches, with: event)
     }
     
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-        let zeroVector = CGVector(dx: 0.0, dy: 0.0)
-        //playerCharacherComponent?.moveTowards(vector: zeroVector)
+        super.touchesCancelled(touches, with: event)
     }
 }
+    
 #endif
 
 #if os(OSX)
