@@ -1,4 +1,5 @@
 import GameplayKit
+import SpriteKit
 
 class PlayerCharacterComponent: GKComponent {
     
@@ -16,7 +17,7 @@ class PlayerCharacterComponent: GKComponent {
     
     func jump() {
         stateMachine?.enter(JumpingState.self)
-        let vector = CGVector(dx: (node?.physicsBody?.velocity.dx)!, dy: 75.0)
+        let vector = CGVector(dx: (node?.physicsBody?.velocity.dx)!, dy: 200.0)
         node?.physicsBody?.applyImpulse(vector, at: (node?.position)!)
     }
     
@@ -24,9 +25,10 @@ class PlayerCharacterComponent: GKComponent {
         if stateMachine == nil {
             stateMachine = GKStateMachine(states:
                 [
-                    WalkingState(with: node!),
-                    JumpingState(with: node!),
-                    StandingState(with: node!)
+                    WalkingState(with: node!, name: "PlayerWalkAction"),
+                    JumpingState(with: node!, name: "PlayerJumpAction"),
+                    StandingState(with: node!, name: "alienGreen_stand_right"),
+                    HitState(with: node!, name: "alienGreen_hit")
                 ]
             )
             stateMachine?.enter(StandingState.self)
@@ -38,57 +40,5 @@ class PlayerCharacterComponent: GKComponent {
             (dy! < CGFloat(0.5) && dy! > CGFloat (-0.5)) {
             stateMachine?.enter(StandingState.self)
         }
-    }
-}
-
-class CharacterState: GKState {
-    weak var node: SKNode?
-    
-    init(with node: SKNode) {
-        self.node = node
-    }
-}
-
-class WalkingState: CharacterState {
-    
-    override func didEnter(from previousState: GKState?) {
-        let action = SKAction(named: "PlayerWalkAction")
-        node?.run(action!, withKey: "walking")
-    }
-    override func willExit(to nextState: GKState) {
-        node?.removeAction(forKey: "walking")
-    }
-    override func isValidNextState(_ stateClass: AnyClass) -> Bool {
-        return stateClass is StandingState.Type || stateClass is JumpingState.Type
-    }
-}
-
-class JumpingState: CharacterState {
-    
-    override func didEnter(from previousState: GKState?) {
-        let action = SKAction(named: "PlayerJumpAction")
-        node?.run(action!, withKey: "jumping")
-    }
-    override func willExit(to nextState: GKState) {
-        node?.removeAction(forKey: "jumping")
-    }
-    override func update(deltaTime seconds: TimeInterval) {
-        print("update")
-    }
-    override func isValidNextState(_ stateClass: AnyClass) -> Bool {
-        return stateClass is WalkingState.Type || stateClass is StandingState.Type
-    }
-}
-
-class StandingState: CharacterState {
-    
-    override func didEnter(from previousState: GKState?) {
-        (node as? SKSpriteNode)?.texture = SKTexture(imageNamed: "alienGreen_stand")
-    }
-    override func willExit(to nextState: GKState) {
-        
-    }
-    override func isValidNextState(_ stateClass: AnyClass) -> Bool {
-        return stateClass is WalkingState.Type || stateClass is JumpingState.Type
     }
 }

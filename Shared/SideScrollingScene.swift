@@ -3,6 +3,10 @@ import GameplayKit
 
 class SideScrollingScene: SKScene, SKPhysicsContactDelegate {
     
+    let playerCategory = 0x1 << 0
+    let enemyCategory = 0x1 << 1
+    let blockCategory = 0x1 << 2
+    
     lazy var playerCharacterNode: SKNode? = {
         return self.childNode(withName: "//PlayerCharacter")
     }()
@@ -10,7 +14,6 @@ class SideScrollingScene: SKScene, SKPhysicsContactDelegate {
     lazy var slimeOneNode: SKNode? = {
         return self.childNode(withName: "//Slime1")
     }()
-    
     
     lazy var playerCharacherComponent: PlayerCharacterComponent? = {
         return self.playerCharacterNode?.entity?.component(ofType: PlayerCharacterComponent.self)
@@ -49,7 +52,20 @@ class SideScrollingScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func didBegin(_ contact: SKPhysicsContact) {
-
+        
+        print(contact.contactNormal.dy)
+        
+        if contact.contactNormal.dx > CGFloat(0.8) || contact.contactNormal.dx < CGFloat(-0.8) {
+            
+        } else if contact.contactNormal.dy < CGFloat(-0.8) {
+            slimeOneNode?.entity?.component(ofType: EnemyAgent.self)?.hitMe()
+        }
+        if contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask {
+        
+        }
+        else {
+            
+        }
     }
     
     override func didMove(to view: SKView) {
@@ -57,7 +73,6 @@ class SideScrollingScene: SKScene, SKPhysicsContactDelegate {
         let graph = SideScrollingScene.gkScene?.graphs["SlimeGraph"]
         let path = GKPath(graphNodes: (graph?.nodes)!, radius: 20.0)
         path.isCyclical = true
-        print(graph?.nodes)
         let goal = GKGoal(toFollow: path, maxPredictionTime: 1.5, forward: true)
         let agent = GKAgent2D()
         agent.behavior = GKBehavior(weightedGoals: [goal: 1])
@@ -68,6 +83,14 @@ class SideScrollingScene: SKScene, SKPhysicsContactDelegate {
         agent.position = vector_float2(Float(position!.x), Float(position!.y))
         agent.delegate = slimeOneNode?.entity?.component(ofType: EnemyAgent.self)
         agentSystem.addComponent(agent)
+        
+        playerCharacterNode?.physicsBody?.categoryBitMask = UInt32(playerCategory)
+        playerCharacterNode?.physicsBody?.collisionBitMask = UInt32(playerCategory | enemyCategory | blockCategory)
+        playerCharacterNode?.physicsBody?.contactTestBitMask = UInt32(playerCategory | enemyCategory)
+        
+        slimeOneNode?.physicsBody?.categoryBitMask = UInt32(enemyCategory)
+        slimeOneNode?.physicsBody?.collisionBitMask = UInt32(playerCategory | enemyCategory | blockCategory)
+        slimeOneNode?.physicsBody?.contactTestBitMask = UInt32(enemyCategory | playerCategory)
     }
     
     override func update(_ currentTime: TimeInterval) {
@@ -102,13 +125,18 @@ class SideScrollingScene: SKScene, SKPhysicsContactDelegate {
                     center?.x -= 32.0
                     let rect = CGRect(origin: center!, size: tileSize!)
                     let physicsBody = SKPhysicsBody(edgeLoopFrom: rect)
+                    physicsBody.categoryBitMask = UInt32(blockCategory)
+                    physicsBody.collisionBitMask = UInt32(blockCategory | enemyCategory | playerCategory)
+                    physicsBody.contactTestBitMask = UInt32(blockCategory)
                     physicsBodies.append(physicsBody)
                 }
             }
         }
         let tileMapPhysicsBody = SKPhysicsBody(bodies: physicsBodies)
         tileMapPhysicsBody.isDynamic = false
-        tileMap?.physicsBody?.contactTestBitMask = 0
+        tileMapPhysicsBody.categoryBitMask = UInt32(blockCategory)
+        tileMapPhysicsBody.collisionBitMask = UInt32(blockCategory | enemyCategory | playerCategory)
+        tileMapPhysicsBody.contactTestBitMask = UInt32(blockCategory)
         tileMap?.physicsBody = tileMapPhysicsBody
     }
 }
@@ -153,21 +181,59 @@ extension SideScrollingScene {
 #endif
 
 #if os(OSX)
+
+extension SideScrollingScene {
     
-    extension SideScrollingScene {
+    //123 left
+    //124 right 
+    //125 down
+    //126 up
+    //49 space
+    
+    override func keyDown(with event: NSEvent) {
+        //super.keyDown(with: event)
         
-        override func mouseDown(with event: NSEvent) {
-            
+        switch event.keyCode {
+        case 123:
+            playerCharacherComponent?.moveTowards(dx: CGFloat(-100.0))
+        case 124:
+            playerCharacherComponent?.moveTowards(dx: CGFloat(100.0))
+        case 49:
+            playerCharacherComponent?.jump()
+        default: break
         }
-        
-        override func mouseDragged(with event: NSEvent) {
-            
-        }
-        
-        override func mouseUp(with event: NSEvent) {
-            
-        }
-        
     }
+    override func rightMouseDown(with event: NSEvent) {
+        super.rightMouseDown(with: event)
+        print("right click")
+    }
+    override func mouseDown(with event: NSEvent) {
+        super.mouseDown(with: event)
+        print(event.buttonNumber)
+        if event.clickCount > 1 {
+            playerCharacherComponent?.jump()
+        }
+        let playerLocation = playerCharacterNode?.position
+        let location = event.location(in: self.scene!)
+        let dx = (location.x) - (playerLocation?.x)!
+        print(dx)
+        playerCharacherComponent?.moveTowards(dx: dx)
+    }
+    
+    override func mouseDragged(with event: NSEvent) {
+        super.mouseDragged(with: event)
+        let playerLocation = playerCharacterNode?.position
+        let location = event.location(in: self.scene!)
+        let dx = (location.x) - (playerLocation?.x)!
+        playerCharacherComponent?.moveTowards(dx: dx)
+
+    }
+    
+    override func mouseUp(with event: NSEvent) {
+        super.mouseUp(with: event)
+    }
+    
+}
+    
 #endif
 
