@@ -52,9 +52,12 @@ class SideScrollingScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func didBegin(_ contact: SKPhysicsContact) {
+        
+        print(contact.contactNormal.dy)
+        
         if contact.contactNormal.dx > CGFloat(0.8) || contact.contactNormal.dx < CGFloat(-0.8) {
             
-        } else if contact.contactNormal.dy > CGFloat(0.8) {
+        } else if contact.contactNormal.dy < CGFloat(-0.8) {
             slimeOneNode?.entity?.component(ofType: EnemyAgent.self)?.hitMe()
         }
         if contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask {
@@ -181,14 +184,39 @@ extension SideScrollingScene {
 
 extension SideScrollingScene {
     
+    //123 left
+    //124 right 
+    //125 down
+    //126 up
+    //49 space
+    
+    override func keyDown(with event: NSEvent) {
+        //super.keyDown(with: event)
+        
+        switch event.keyCode {
+        case 123:
+            playerCharacherComponent?.moveTowards(dx: CGFloat(-100.0))
+        case 124:
+            playerCharacherComponent?.moveTowards(dx: CGFloat(100.0))
+        case 49:
+            playerCharacherComponent?.jump()
+        default: break
+        }
+    }
+    override func rightMouseDown(with event: NSEvent) {
+        super.rightMouseDown(with: event)
+        print("right click")
+    }
     override func mouseDown(with event: NSEvent) {
         super.mouseDown(with: event)
+        print(event.buttonNumber)
         if event.clickCount > 1 {
             playerCharacherComponent?.jump()
         }
         let playerLocation = playerCharacterNode?.position
         let location = event.location(in: self.scene!)
         let dx = (location.x) - (playerLocation?.x)!
+        print(dx)
         playerCharacherComponent?.moveTowards(dx: dx)
     }
     

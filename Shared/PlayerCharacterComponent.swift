@@ -17,7 +17,7 @@ class PlayerCharacterComponent: GKComponent {
     
     func jump() {
         stateMachine?.enter(JumpingState.self)
-        let vector = CGVector(dx: (node?.physicsBody?.velocity.dx)!, dy: 75.0)
+        let vector = CGVector(dx: (node?.physicsBody?.velocity.dx)!, dy: 200.0)
         node?.physicsBody?.applyImpulse(vector, at: (node?.position)!)
     }
     
@@ -27,7 +27,7 @@ class PlayerCharacterComponent: GKComponent {
                 [
                     WalkingState(with: node!, name: "PlayerWalkAction"),
                     JumpingState(with: node!, name: "PlayerJumpAction"),
-                    StandingState(with: node!, name: "alienGreen_stand"),
+                    StandingState(with: node!, name: "alienGreen_stand_right"),
                     HitState(with: node!, name: "alienGreen_hit")
                 ]
             )

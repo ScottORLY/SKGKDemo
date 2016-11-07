@@ -59,14 +59,11 @@ class HitState: CharacterState {
     
     override func update(deltaTime seconds: TimeInterval) {
         hitTimer += seconds
-        if hitTimer >= 1.0 {
-            stateMachine?.enter(WalkingState.self)
-            hitTimer = 0
-        }
     }
     
     override func didEnter(from previousState: GKState?) {
         (node as? SKSpriteNode)?.texture = SKTexture(imageNamed: name)
+        node?.physicsBody = nil
     }
     override func willExit(to nextState: GKState) {
         
