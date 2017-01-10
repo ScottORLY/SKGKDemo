@@ -1,44 +1,39 @@
 import GameplayKit
 import SpriteKit
 
-class PlayerCharacterComponent: GKComponent {
+class PlayerCharacterComponent: GKComponent, GKAgentDelegate {
     
-    var stateMachine: GKStateMachine?
+    var playerAgent: GKAgent2D? = GKAgent2D()
     
-    func moveTowards(dx: CGFloat) {
-        if (node?.physicsBody?.velocity.dy)! < CGFloat(0.5) {
-            stateMachine?.enter(WalkingState.self)
-        }
-        if (dx == CGFloat(0.0) && (node?.physicsBody?.velocity.dy)! < CGFloat(0.5))  {
-            self.stateMachine?.enter(StandingState.self)
-        }
-        node?.physicsBody?.velocity.dx = dx
+    override init() {
+        super.init()
+        playerAgent?.delegate = self
+        let behavior = GKBehavior()
+        playerAgent?.behavior = behavior
     }
     
-    func jump() {
-        stateMachine?.enter(JumpingState.self)
-        let vector = CGVector(dx: (node?.physicsBody?.velocity.dx)!, dy: 200.0)
-        node?.physicsBody?.applyImpulse(vector, at: (node?.position)!)
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
+    func moveTowards(dx: CGFloat, dy: CGFloat) {
+        let vector = CGVector(dx: dx, dy: dy)
+        node?.physicsBody?.velocity = vector
+    }
+    
+    func agentWillUpdate(_ agent: GKAgent) {
+        if let agent2d = agent as? GKAgent2D {
+            agent2d.position = float2(Float((node?.position.x)!), Float((node?.position.y)!))
+        }
+    }
+    
+    func agentDidUpdate(_ agent: GKAgent) {
+        if let agent2d = agent as? GKAgent2D {
+            node?.position = CGPoint(x: CGFloat(agent2d.position.x), y: CGFloat(agent2d.position.y))
+        }
     }
     
     override func update(deltaTime seconds: TimeInterval) {
-        if stateMachine == nil {
-            stateMachine = GKStateMachine(states:
-                [
-                    WalkingState(with: node!, name: "PlayerWalkAction"),
-                    JumpingState(with: node!, name: "PlayerJumpAction"),
-                    StandingState(with: node!, name: "alienGreen_stand_right"),
-                    HitState(with: node!, name: "alienGreen_hit")
-                ]
-            )
-            stateMachine?.enter(StandingState.self)
-        }
-        
-        let dx = node?.physicsBody?.velocity.dx
-        let dy = node?.physicsBody?.velocity.dy
-        if (dx! < CGFloat(0.5) && dx! > CGFloat(-0.5)) &&
-            (dy! < CGFloat(0.5) && dy! > CGFloat (-0.5)) {
-            stateMachine?.enter(StandingState.self)
-        }
+    
     }
 }

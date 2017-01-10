@@ -3,72 +3,51 @@ import SpriteKit
 
 class CharacterState: GKState {
     
-    weak var node: SKNode?
-    let name: String
-
-    init(with node: SKNode, name:String) {
+    weak var node: SKSpriteNode?
+    weak var agent: GKAgent2D?
+    
+    let seekGoal: GKGoal
+    let fleeGoal: GKGoal
+    let originalTexture: SKTexture?
+    
+    init(with agent: GKAgent2D, seekGoal: GKGoal, fleeGoal: GKGoal, node: SKSpriteNode) {
+        self.agent = agent
+        self.seekGoal = seekGoal
+        self.fleeGoal = fleeGoal
         self.node = node
-        self.name = name
+        self.originalTexture = node.texture
     }
 }
 
-class WalkingState: CharacterState {
+class SeekingState: CharacterState {
     
     override func didEnter(from previousState: GKState?) {
-        let action = SKAction(named: name)
-        node?.run(action!, withKey: "walking")
+       agent?.behavior?.setWeight(1, for: seekGoal)
     }
+    
     override func willExit(to nextState: GKState) {
-        node?.removeAction(forKey: "walking")
+        agent?.behavior?.setWeight(0, for: seekGoal)
     }
+    
     override func isValidNextState(_ stateClass: AnyClass) -> Bool {
-        return stateClass is StandingState.Type || stateClass is JumpingState.Type || stateClass is HitState.Type
+        return stateClass is FleeingState.Type
     }
 }
 
-class JumpingState: CharacterState {
+class FleeingState: CharacterState {
+    let fleeingTexture = SKTexture(imageNamed: "runaway")
     
     override func didEnter(from previousState: GKState?) {
-        let action = SKAction(named: name)
-        node?.run(action!, withKey: "jumping")
+        node?.texture = fleeingTexture
+        agent?.behavior?.setWeight(1, for: fleeGoal)
     }
+    
     override func willExit(to nextState: GKState) {
-        node?.removeAction(forKey: "jumping")
+        node?.texture = originalTexture
+        agent?.behavior?.setWeight(0, for: fleeGoal)
     }
+    
     override func isValidNextState(_ stateClass: AnyClass) -> Bool {
-        return stateClass is WalkingState.Type || stateClass is StandingState.Type || stateClass is HitState.Type
-    }
-}
-
-class StandingState: CharacterState {
-    
-    override func didEnter(from previousState: GKState?) {
-        (node as? SKSpriteNode)?.texture = SKTexture(imageNamed: name)
-    }
-    override func willExit(to nextState: GKState) {
-        
-    }
-    override func isValidNextState(_ stateClass: AnyClass) -> Bool {
-        return stateClass is WalkingState.Type || stateClass is JumpingState.Type || stateClass is HitState.Type
-    }
-}
-
-class HitState: CharacterState {
-    
-    var hitTimer: TimeInterval = 0
-    
-    override func update(deltaTime seconds: TimeInterval) {
-        hitTimer += seconds
-    }
-    
-    override func didEnter(from previousState: GKState?) {
-        (node as? SKSpriteNode)?.texture = SKTexture(imageNamed: name)
-        node?.physicsBody = nil
-    }
-    override func willExit(to nextState: GKState) {
-        
-    }
-    override func isValidNextState(_ stateClass: AnyClass) -> Bool {
-        return stateClass is WalkingState.Type || stateClass is JumpingState.Type || stateClass is StandingState.Type
+        return stateClass is SeekingState.Type
     }
 }

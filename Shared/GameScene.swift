@@ -1,7 +1,36 @@
 import GameplayKit
 import SpriteKit
 
-class GameScene: SKScene {
+class GameScene: SKScene, SKPhysicsContactDelegate {
+    static var gkScene: GKScene?
+    
+    class func newGameScene() -> SKScene {
+        
+        guard let gkscene = GKScene(fileNamed: "GameScene") else {
+            abort()
+        }
+        
+        guard let scene = gkscene.rootNode as? GameScene else {
+            print("Failed to load GameScene.sks")
+            abort()
+        }
+        
+        for entity in gkscene.entities {
+            entity.addComponent(entity.component(ofType: GKSKNodeComponent.self)!)
+        }
+        
+        gkScene = gkscene
+        scene.scaleMode = .aspectFill
+        scene.physicsWorld.contactDelegate = scene
+        return scene
+    }
+    
+    var lastUpdate: TimeInterval = 0
+    
+    let playerCategory = 0x1 << 0
+    let enemyCategory = 0x1 << 1
+    let blockCategory = 0x1 << 2
+    let powerupCategory = 0x1 << 3
     
     lazy var playerCharacterNode: SKNode? = {
         return self.childNode(withName: "//PlayerCharacter")
@@ -11,89 +40,151 @@ class GameScene: SKScene {
         return self.playerCharacterNode?.entity?.component(ofType: PlayerCharacterComponent.self)
     }()
     
-    lazy var groundTileMapNode: SKTileMapNode? = {
-        return self.childNode(withName: "//GroundTileMapNode") as? SKTileMapNode
+    lazy var tileMap: SKTileMapNode? = {
+        return self.childNode(withName: "//Obstacles") as? SKTileMapNode
     }()
     
-    lazy var waterTileMapNode: SKTileMapNode? = {
-        return self.childNode(withName: "//WaterTileMapNode") as? SKTileMapNode
-    }()
+    let agentSystem = GKComponentSystem(componentClass: GKAgent2D.self)
 
-    lazy var elevatedTileMapNode: SKTileMapNode? = {
-        return self.childNode(withName: "//ElevateTileMapNode") as? SKTileMapNode
+    override func update(_ currentTime: TimeInterval) {
+        if lastUpdate == 0 {
+            lastUpdate = currentTime
+        }
+        let delta = currentTime - lastUpdate
+        lastUpdate = currentTime
+        
+        for entity in (GameScene.gkScene?.entities)! {
+            entity.update(deltaTime: delta)
+        }
+        agentSystem.update(deltaTime: delta)
+    }
+    
+    lazy var powerupNode: SKNode? = {
+        return self.childNode(withName: "//powerup")
     }()
     
-    static var gkScene: GKScene?
+    var playerState = GKStateMachine(states:[
+        PowerupState(),
+        VulnerableState()
+        ])
     
-    class func newGameScene() -> SKScene {
-        
-        guard let gkscene = GKScene(fileNamed: "GameScene") else {
-            abort()
-        }
-    
-        guard let scene = gkscene.rootNode as? GameScene else {
-            print("Failed to load GameScene.sks")
-            abort()
-        }
-  
-        for entity in gkscene.entities {
-            entity.addComponent(entity.component(ofType: GKSKNodeComponent.self)!)
-        }
-        
-        gkScene = gkscene
-        scene.scaleMode = .aspectFill
-        return scene
+    func didBegin(_ contact: SKPhysicsContact) {
+        powerupNode?.removeFromParent()
+        playerState.enter(PowerupState.self)
     }
     
     override func didMove(to view: SKView) {
-        self.physicsBody = SKPhysicsBody(edgeLoopFrom: (self.waterTileMapNode?.frame)!)
+        let seekGoal = GKGoal(toSeekAgent: (playerCharacherComponent?.playerAgent)!)
+        let fleeGoal = GKGoal(toFleeAgent: (playerCharacherComponent?.playerAgent)!)
+        
+        agentSystem.addComponent((playerCharacherComponent?.playerAgent)!)
+
+        enumerateChildNodes(withName: "//enemy*") { node, stop in
+            
+            node.physicsBody?.categoryBitMask = UInt32(self.enemyCategory)
+            node.physicsBody?.collisionBitMask = UInt32(self.playerCategory | self.enemyCategory | self.blockCategory)
+            
+            let enemyComponent = node.entity?.component(ofType: EnemyAgent.self)
+            let agent = enemyComponent?.setUpAgent(with: [seekGoal, fleeGoal])
+            self.agentSystem.addComponent(agent!)
+            
+            enemyComponent?.setupStateMachine(with: agent!, seekGoal: seekGoal, fleeGoal: fleeGoal)
+            enemyComponent?.playerState = self.playerState
+        }
+        
+        setUpTileMapPhysics()
+        playerCharacterNode?.physicsBody?.categoryBitMask = UInt32(playerCategory)
+        playerCharacterNode?.physicsBody?.collisionBitMask = UInt32(playerCategory | enemyCategory | blockCategory)
+        playerCharacterNode?.physicsBody?.contactTestBitMask = UInt32(playerCategory | powerupCategory)
+        
+        powerupNode?.physicsBody?.categoryBitMask = UInt32(powerupCategory)
+        powerupNode?.physicsBody?.collisionBitMask =  UInt32(powerupCategory | playerCategory)
+        powerupNode?.physicsBody?.contactTestBitMask = UInt32(powerupCategory | playerCategory)
+        
+        playerState.enter(VulnerableState.self)
     }
     
-    override func update(_ currentTime: TimeInterval) {
-       camera?.position = (playerCharacterNode?.position)!
+    func setUpTileMapPhysics() {
+        var physicsBodies = [SKPhysicsBody]()
+        for col in 0..<(tileMap?.numberOfColumns)! {
+            for row in 0..<(tileMap?.numberOfRows)! {
+                let tileDef = tileMap?.tileDefinition(atColumn: col, row: row)
+                let isEdgeTile = tileDef?.userData?["edgeTile"] as? Bool
+                let isHalfTile = tileDef?.userData?["halfTile"] as? Bool
+                if isEdgeTile ?? false {
+                    var tileSize = tileDef?.size
+                    var center = tileMap?.centerOfTile(atColumn: col, row: row)
+                    if isHalfTile ?? false {
+                        tileSize?.height = (tileSize?.height)! / 2
+                    }
+                    else {
+                        center?.y -= 32.0
+                    }
+                    center?.x -= 32.0
+                    let rect = CGRect(origin: center!, size: tileSize!)
+                    let physicsBody = SKPhysicsBody(edgeLoopFrom: rect)
+                    physicsBody.categoryBitMask = UInt32(blockCategory)
+                    physicsBody.collisionBitMask = UInt32(blockCategory | enemyCategory | playerCategory)
+                    physicsBody.contactTestBitMask = UInt32(blockCategory)
+                    physicsBodies.append(physicsBody)
+                }
+            }
+        }
+        let tileMapPhysicsBody = SKPhysicsBody(bodies: physicsBodies)
+        tileMapPhysicsBody.isDynamic = false
+        tileMapPhysicsBody.categoryBitMask = UInt32(blockCategory)
+        tileMapPhysicsBody.collisionBitMask = UInt32(blockCategory | enemyCategory | playerCategory)
+        tileMapPhysicsBody.contactTestBitMask = UInt32(blockCategory)
+        tileMap?.physicsBody = tileMapPhysicsBody
     }
+
     
 }
-
-#if os(iOS) || os(tvOS)
-
-extension GameScene {
-
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesBegan(touches, with: event)
-    }
-    
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesMoved(touches, with: event)
-    }
-    
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesEnded(touches, with: event)
-    }
-    
-    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesCancelled(touches, with: event)
-    }
-}
-    
-#endif
 
 #if os(OSX)
-
-extension GameScene {
-
-    override func mouseDown(with event: NSEvent) {
+    
+    extension GameScene {
+        override func mouseDown(with event: NSEvent) {
+            super.mouseDown(with: event)
+            let playerLocation = playerCharacterNode?.position
+            let location = event.location(in: self.scene!)
+            let dx = (location.x) - (playerLocation?.x)!
+            let dy = (location.y) - (playerLocation?.y)!
+            playerCharacherComponent?.moveTowards(dx: dx, dy: dy)
+        }
         
+        override func mouseDragged(with event: NSEvent) {
+            super.mouseDragged(with: event)
+            let playerLocation = playerCharacterNode?.position
+            let location = event.location(in: self.scene!)
+            let dx = (location.x) - (playerLocation?.x)!
+            let dy = (location.y) - (playerLocation?.y)!
+            playerCharacherComponent?.moveTowards(dx: dx, dy: dy)
+            
+        }
     }
     
-    override func mouseDragged(with event: NSEvent) {
-        
-    }
-    
-    override func mouseUp(with event: NSEvent) {
-
-    }
-
-}
 #endif
 
+#if os(iOS) || os(tvOS)
+    
+    extension GameScene {
+        
+        override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+            super.touchesBegan(touches, with: event)
+        }
+        
+        override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+            super.touchesMoved(touches, with: event)
+        }
+        
+        override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+            super.touchesEnded(touches, with: event)
+        }
+        
+        override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+            super.touchesCancelled(touches, with: event)
+        }
+    }
+    
+#endif

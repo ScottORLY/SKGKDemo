@@ -1,22 +1,28 @@
-//
-//  GameViewController.swift
-//  MemeFactory
-//
-//  Created by Pivotal on 10/25/16.
-//  Copyright © 2016 pivotalOSS. All rights reserved.
-//
-
 import UIKit
 import SpriteKit
 import GameplayKit
 
 class GameViewController: UIViewController {
 
+//    override func viewDidLoad() {
+//        super.viewDidLoad()
+//        
+//        let scene = SideScrollingScene.newGameScene()
+//
+//        // Present the scene
+//        let skView = self.view as! SKView
+//        skView.presentScene(scene)
+//        
+//        skView.ignoresSiblingOrder = true
+//        skView.showsFPS = true
+//        skView.showsNodeCount = true
+//    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let scene = SideScrollingScene.newGameScene()
-
+        let scene = GameScene.newGameScene()
+        
         // Present the scene
         let skView = self.view as! SKView
         skView.presentScene(scene)
@@ -25,7 +31,7 @@ class GameViewController: UIViewController {
         skView.showsFPS = true
         skView.showsNodeCount = true
     }
-
+    
     override var shouldAutorotate: Bool {
         return true
     }
