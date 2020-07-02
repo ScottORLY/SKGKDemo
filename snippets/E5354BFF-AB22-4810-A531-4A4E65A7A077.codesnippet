@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDECodeSnippetCompletionPrefix</key>
+	<string>pccad</string>
+	<key>IDECodeSnippetCompletionScopes</key>
+	<array>
+		<string>ClassImplementation</string>
+	</array>
+	<key>IDECodeSnippetContents</key>
+	<string>
+func agentWillUpdate(_ agent: GKAgent) {
+    if let agent2d = agent as? GKAgent2D {
+        agent2d.position = float2(Float((node?.position.x)!), Float((node?.position.y)!))
+    }
+}
+
+func agentDidUpdate(_ agent: GKAgent) {
+    if let agent2d = agent as? GKAgent2D {
+        node?.position = CGPoint(x: CGFloat(agent2d.position.x), y: CGFloat(agent2d.position.y))
+    }
+}</string>
+	<key>IDECodeSnippetIdentifier</key>
+	<string>E5354BFF-AB22-4810-A531-4A4E65A7A077</string>
+	<key>IDECodeSnippetLanguage</key>
+	<string>Xcode.SourceCodeLanguage.Swift</string>
+	<key>IDECodeSnippetTitle</key>
+	<string>PlayerCharacterComponent: Agent Delegate</string>
+	<key>IDECodeSnippetUserSnippet</key>
+	<true/>
+	<key>IDECodeSnippetVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>

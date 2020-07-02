@@ -21,29 +21,16 @@ class EnemyAgent: GKComponent, GKAgentDelegate {
         }
     }
     
-    func agentWillUpdate(_ agent: GKAgent) {
-        if let agent2d = agent as? GKAgent2D {
-            agent2d.position = float2(Float((node?.position.x)!), Float((node?.position.y)!))
-        }
-    }
-    
     func agentDidUpdate(_ agent: GKAgent) {
-        if let agent2d = agent as? GKAgent2D {
-            node?.position = CGPoint(x: CGFloat(agent2d.position.x), y: CGFloat(agent2d.position.y))
+        if let agent = agent as? GKAgent2D  {
+            node?.position = CGPoint(x: CGFloat(agent.position.x), y: CGFloat(agent.position.y))
         }
     }
     
-    func setUpAgent(with goals: [GKGoal]) -> GKAgent2D {
-        let agent = GKAgent2D()
-        let behavior = GKBehavior(goals: goals, andWeights: [1, 0])
-        agent.behavior = behavior
-        let position = node?.position
-        agent.maxSpeed = 400
-        agent.maxAcceleration = 400
-        agent.radius = 40
-        agent.position = vector_float2(Float(position?.x ?? 0), Float(position?.y ?? 0))
-        agent.delegate = self
-        return agent
+    func agentWillUpdate(_ agent: GKAgent) {
+        if let agent = agent as? GKAgent2D  {
+            agent.position = float2(Float((node?.position.x)!), Float((node?.position.y)!))
+        }
     }
     
     func setupStateMachine(with agent: GKAgent2D, seekGoal: GKGoal, fleeGoal: GKGoal) {
@@ -58,5 +45,16 @@ class EnemyAgent: GKComponent, GKAgentDelegate {
         stateMachine?.enter(SeekingState.self)
     }
     
-    
+    func setUpAgent(with goals: [GKGoal]) -> GKAgent2D {
+        let agent = GKAgent2D()
+        let behavior = GKBehavior(goals: goals, andWeights: [1, 0])
+        agent.behavior = behavior
+        let position = node?.position
+        agent.maxSpeed = 400
+        agent.maxAcceleration = 400
+        agent.radius = 40
+        agent.position = vector_float2(Float(position?.x ?? 0), Float(position?.y ?? 0))
+        agent.delegate = self
+        return agent
+    }
 }

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDECodeSnippetCompletionPrefix</key>
+	<string>gscs</string>
+	<key>IDECodeSnippetCompletionScopes</key>
+	<array>
+		<string>ClassImplementation</string>
+	</array>
+	<key>IDECodeSnippetContents</key>
+	<string>
+override func mouseDown(with event: NSEvent) {
+    super.mouseDown(with: event)
+    let playerLocation = playerCharacterNode?.position
+    let location = event.location(in: self.scene!)
+    let dx = (location.x) - (playerLocation?.x)!
+    let dy = (location.y) - (playerLocation?.y)!
+    playerCharacherComponent?.moveTowards(dx: dx, dy: dy)
+}
+
+override func mouseDragged(with event: NSEvent) {
+    super.mouseDragged(with: event)
+    let playerLocation = playerCharacterNode?.position
+    let location = event.location(in: self.scene!)
+    let dx = (location.x) - (playerLocation?.x)!
+    let dy = (location.y) - (playerLocation?.y)!
+    playerCharacherComponent?.moveTowards(dx: dx, dy: dy)
+    
+}</string>
+	<key>IDECodeSnippetIdentifier</key>
+	<string>22FF0B7A-7260-4179-BE37-0BB7CCF26710</string>
+	<key>IDECodeSnippetLanguage</key>
+	<string>Xcode.SourceCodeLanguage.Swift</string>
+	<key>IDECodeSnippetTitle</key>
+	<string>Game Scene: Control Scheme</string>
+	<key>IDECodeSnippetUserSnippet</key>
+	<true/>
+	<key>IDECodeSnippetVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDECodeSnippetCompletionPrefix</key>
+	<string>pupc</string>
+	<key>IDECodeSnippetCompletionScopes</key>
+	<array>
+		<string>CodeBlock</string>
+	</array>
+	<key>IDECodeSnippetContents</key>
+	<string>
+powerupNode?.physicsBody?.categoryBitMask = UInt32(powerupCategory)
+powerupNode?.physicsBody?.collisionBitMask =  UInt32(powerupCategory | playerCategory)
+powerupNode?.physicsBody?.contactTestBitMask = UInt32(powerupCategory | playerCategory)</string>
+	<key>IDECodeSnippetIdentifier</key>
+	<string>24A778AB-12C1-4BD1-92E1-5B14EF2C0D9C</string>
+	<key>IDECodeSnippetLanguage</key>
+	<string>Xcode.SourceCodeLanguage.Swift</string>
+	<key>IDECodeSnippetTitle</key>
+	<string>Game Scene: Powerup Node Physics Bitmasks</string>
+	<key>IDECodeSnippetUserSnippet</key>
+	<true/>
+	<key>IDECodeSnippetVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>

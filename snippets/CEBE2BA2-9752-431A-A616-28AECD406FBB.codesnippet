@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDECodeSnippetCompletionPrefix</key>
+	<string>gsia</string>
+	<key>IDECodeSnippetCompletionScopes</key>
+	<array>
+		<string>CodeBlock</string>
+	</array>
+	<key>IDECodeSnippetContents</key>
+	<string>
+let seekGoal = GKGoal(toSeekAgent: (playerCharacherComponent?.playerAgent)!)
+let fleeGoal = GKGoal(toFleeAgent: (playerCharacherComponent?.playerAgent)!)
+
+enumerateChildNodes(withName: "//enemy*") { node, stop in
+    
+    node.physicsBody?.categoryBitMask = UInt32(self.enemyCategory)
+    node.physicsBody?.collisionBitMask = UInt32(self.playerCategory | self.enemyCategory | self.blockCategory)
+
+    let enemyComponent = node.entity?.component(ofType: EnemyAgent.self)
+    let agent = enemyComponent?.setUpAgent(with: [seekGoal, fleeGoal])
+    self.agentSystem.addComponent(agent!)
+
+}</string>
+	<key>IDECodeSnippetIdentifier</key>
+	<string>CEBE2BA2-9752-431A-A616-28AECD406FBB</string>
+	<key>IDECodeSnippetLanguage</key>
+	<string>Xcode.SourceCodeLanguage.Swift</string>
+	<key>IDECodeSnippetTitle</key>
+	<string>Game Scene: Init Enemy GKAgent</string>
+	<key>IDECodeSnippetUserSnippet</key>
+	<true/>
+	<key>IDECodeSnippetVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>

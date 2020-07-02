@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDECodeSnippetCompletionPrefix</key>
+	<string>sesm</string>
+	<key>IDECodeSnippetCompletionScopes</key>
+	<array>
+		<string>ClassImplementation</string>
+	</array>
+	<key>IDECodeSnippetContents</key>
+	<string>
+func setupStateMachine(with agent: GKAgent2D, seekGoal: GKGoal, fleeGoal: GKGoal) {
+    let fleeingState = FleeingState(with: agent, seekGoal: seekGoal, fleeGoal: fleeGoal, node: node as! SKSpriteNode)
+    let seekState = SeekingState(with: agent, seekGoal: seekGoal, fleeGoal: fleeGoal, node: node as! SKSpriteNode)
+    
+    stateMachine = GKStateMachine(states: [
+        fleeingState,
+        seekState
+        ])
+    
+    stateMachine?.enter(SeekingState.self)
+}</string>
+	<key>IDECodeSnippetIdentifier</key>
+	<string>2A92AE21-792F-4E9D-9A2B-01C21BBF6FE3</string>
+	<key>IDECodeSnippetLanguage</key>
+	<string>Xcode.SourceCodeLanguage.Swift</string>
+	<key>IDECodeSnippetTitle</key>
+	<string>Enemy Agent: Setup EnemyState Machine</string>
+	<key>IDECodeSnippetUserSnippet</key>
+	<true/>
+	<key>IDECodeSnippetVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>

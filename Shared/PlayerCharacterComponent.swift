@@ -32,8 +32,4 @@ class PlayerCharacterComponent: GKComponent, GKAgentDelegate {
             node?.position = CGPoint(x: CGFloat(agent2d.position.x), y: CGFloat(agent2d.position.y))
         }
     }
-    
-    override func update(deltaTime seconds: TimeInterval) {
-    
-    }
 }

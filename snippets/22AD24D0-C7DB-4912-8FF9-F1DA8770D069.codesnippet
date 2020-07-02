@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDECodeSnippetCompletionPrefix</key>
+	<string>gstmp</string>
+	<key>IDECodeSnippetCompletionScopes</key>
+	<array>
+		<string>ClassImplementation</string>
+	</array>
+	<key>IDECodeSnippetContents</key>
+	<string>
+func setUpTileMapPhysics() {
+        var physicsBodies = [SKPhysicsBody]()
+        for col in 0..&lt;(tileMap?.numberOfColumns)! {
+            for row in 0..&lt;(tileMap?.numberOfRows)! {
+                let tileDef = tileMap?.tileDefinition(atColumn: col, row: row)
+                let isEdgeTile = tileDef?.userData?["edgeTile"] as? Bool
+                let isHalfTile = tileDef?.userData?["halfTile"] as? Bool
+                if isEdgeTile ?? false {
+                    var tileSize = tileDef?.size
+                    var center = tileMap?.centerOfTile(atColumn: col, row: row)
+                    if isHalfTile ?? false {
+                        tileSize?.height = (tileSize?.height)! / 2
+                    }
+                    else {
+                        center?.y -= 32.0
+                    }
+                    center?.x -= 32.0
+                    let rect = CGRect(origin: center!, size: tileSize!)
+                    let physicsBody = SKPhysicsBody(edgeLoopFrom: rect)
+                    physicsBody.categoryBitMask = UInt32(blockCategory)
+                    physicsBody.collisionBitMask = UInt32(blockCategory | enemyCategory | playerCategory)
+                    physicsBody.contactTestBitMask = UInt32(blockCategory)
+                    physicsBodies.append(physicsBody)
+                }
+            }
+        }
+        let tileMapPhysicsBody = SKPhysicsBody(bodies: physicsBodies)
+        tileMapPhysicsBody.isDynamic = false
+        tileMapPhysicsBody.categoryBitMask = UInt32(blockCategory)
+        tileMapPhysicsBody.collisionBitMask = UInt32(blockCategory | enemyCategory | playerCategory)
+        tileMapPhysicsBody.contactTestBitMask = UInt32(blockCategory)
+        tileMap?.physicsBody = tileMapPhysicsBody
+    }
+</string>
+	<key>IDECodeSnippetIdentifier</key>
+	<string>22AD24D0-C7DB-4912-8FF9-F1DA8770D069</string>
+	<key>IDECodeSnippetLanguage</key>
+	<string>Xcode.SourceCodeLanguage.Swift</string>
+	<key>IDECodeSnippetTitle</key>
+	<string>Game Scene: TileMap Physics Bodies</string>
+	<key>IDECodeSnippetUserSnippet</key>
+	<true/>
+	<key>IDECodeSnippetVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>

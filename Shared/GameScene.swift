@@ -25,16 +25,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         return scene
     }
     
-    var lastUpdate: TimeInterval = 0
-    
     let playerCategory = 0x1 << 0
     let enemyCategory = 0x1 << 1
     let blockCategory = 0x1 << 2
     let powerupCategory = 0x1 << 3
-    
-    lazy var playerCharacterNode: SKNode? = {
-        return self.childNode(withName: "//PlayerCharacter")
-    }()
     
     lazy var playerCharacherComponent: PlayerCharacterComponent? = {
         return self.playerCharacterNode?.entity?.component(ofType: PlayerCharacterComponent.self)
@@ -44,9 +38,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         return self.childNode(withName: "//Obstacles") as? SKTileMapNode
     }()
     
+    var lastUpdate: TimeInterval = 0
+    
+    lazy var playerCharacterNode: SKNode? = {
+        return self.childNode(withName: "//PlayerCharacter")
+    }()
+    
     let agentSystem = GKComponentSystem(componentClass: GKAgent2D.self)
-
+    
+    var playerState = GKStateMachine(states:[
+        PowerupState(),
+        VulnerableState()
+        ])
+    
+    lazy var powerupNode: SKNode? = {
+        return self.childNode(withName: "//powerup")
+    }()
+    
     override func update(_ currentTime: TimeInterval) {
+  
         if lastUpdate == 0 {
             lastUpdate = currentTime
         }
@@ -59,49 +69,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         agentSystem.update(deltaTime: delta)
     }
     
-    lazy var powerupNode: SKNode? = {
-        return self.childNode(withName: "//powerup")
-    }()
-    
-    var playerState = GKStateMachine(states:[
-        PowerupState(),
-        VulnerableState()
-        ])
-    
     func didBegin(_ contact: SKPhysicsContact) {
         powerupNode?.removeFromParent()
         playerState.enter(PowerupState.self)
-    }
-    
-    override func didMove(to view: SKView) {
-        let seekGoal = GKGoal(toSeekAgent: (playerCharacherComponent?.playerAgent)!)
-        let fleeGoal = GKGoal(toFleeAgent: (playerCharacherComponent?.playerAgent)!)
-        
-        agentSystem.addComponent((playerCharacherComponent?.playerAgent)!)
-
-        enumerateChildNodes(withName: "//enemy*") { node, stop in
-            
-            node.physicsBody?.categoryBitMask = UInt32(self.enemyCategory)
-            node.physicsBody?.collisionBitMask = UInt32(self.playerCategory | self.enemyCategory | self.blockCategory)
-            
-            let enemyComponent = node.entity?.component(ofType: EnemyAgent.self)
-            let agent = enemyComponent?.setUpAgent(with: [seekGoal, fleeGoal])
-            self.agentSystem.addComponent(agent!)
-            
-            enemyComponent?.setupStateMachine(with: agent!, seekGoal: seekGoal, fleeGoal: fleeGoal)
-            enemyComponent?.playerState = self.playerState
-        }
-        
-        setUpTileMapPhysics()
-        playerCharacterNode?.physicsBody?.categoryBitMask = UInt32(playerCategory)
-        playerCharacterNode?.physicsBody?.collisionBitMask = UInt32(playerCategory | enemyCategory | blockCategory)
-        playerCharacterNode?.physicsBody?.contactTestBitMask = UInt32(playerCategory | powerupCategory)
-        
-        powerupNode?.physicsBody?.categoryBitMask = UInt32(powerupCategory)
-        powerupNode?.physicsBody?.collisionBitMask =  UInt32(powerupCategory | playerCategory)
-        powerupNode?.physicsBody?.contactTestBitMask = UInt32(powerupCategory | playerCategory)
-        
-        playerState.enter(VulnerableState.self)
     }
     
     func setUpTileMapPhysics() {
@@ -115,7 +85,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     var tileSize = tileDef?.size
                     var center = tileMap?.centerOfTile(atColumn: col, row: row)
                     if isHalfTile ?? false {
-                        tileSize?.height = (tileSize?.height)! / 2
+                        let size = (tileSize?.height)! / 2
+                        tileSize?.height = size
                     }
                     else {
                         center?.y -= 32.0
@@ -138,7 +109,38 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         tileMap?.physicsBody = tileMapPhysicsBody
     }
 
-    
+   
+    override func didMove(to view: SKView) {
+        setUpTileMapPhysics()
+        
+        playerCharacterNode?.physicsBody?.categoryBitMask = UInt32(playerCategory)
+        playerCharacterNode?.physicsBody?.collisionBitMask = UInt32(playerCategory | enemyCategory | blockCategory)
+        playerCharacterNode?.physicsBody?.contactTestBitMask = UInt32(playerCategory | powerupCategory)
+        
+        powerupNode?.physicsBody?.categoryBitMask = UInt32(powerupCategory)
+        powerupNode?.physicsBody?.collisionBitMask =  UInt32(powerupCategory | playerCategory)
+        powerupNode?.physicsBody?.contactTestBitMask = UInt32(powerupCategory | playerCategory)
+        
+        agentSystem.addComponent((playerCharacherComponent?.playerAgent)!)
+        
+        let seekGoal = GKGoal(toSeekAgent: (playerCharacherComponent?.playerAgent)!)
+        let fleeGoal = GKGoal(toFleeAgent: (playerCharacherComponent?.playerAgent)!)
+        
+        enumerateChildNodes(withName: "//enemy*") { node, stop in
+            
+            let enemyComponent = node.entity?.component(ofType: EnemyAgent.self)
+            let agent = enemyComponent?.setUpAgent(with: [seekGoal, fleeGoal])
+            self.agentSystem.addComponent(agent!)
+            
+            enemyComponent?.setupStateMachine(with: agent!, seekGoal: seekGoal, fleeGoal: fleeGoal)
+            enemyComponent?.playerState = self.playerState
+            
+            node.physicsBody?.categoryBitMask = UInt32(self.enemyCategory)
+            node.physicsBody?.collisionBitMask = UInt32(self.playerCategory | self.enemyCategory | self.blockCategory)
+            
+        }
+        playerState.enter(VulnerableState.self)
+    }
 }
 
 #if os(OSX)

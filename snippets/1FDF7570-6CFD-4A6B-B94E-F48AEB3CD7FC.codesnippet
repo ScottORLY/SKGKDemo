@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDECodeSnippetCompletionScopes</key>
+	<array>
+		<string>ClassImplementation</string>
+	</array>
+	<key>IDECodeSnippetContents</key>
+	<string>
+func setUpAgent(with goals: [GKGoal]) -&gt; GKAgent2D {
+    let agent = GKAgent2D()
+    let behavior = GKBehavior(goals: goals, andWeights: [1, 0])
+    agent.behavior = behavior
+    let position = node?.position
+    agent.maxSpeed = 400
+    agent.maxAcceleration = 400
+    agent.radius = 40
+    agent.position = vector_float2(Float(position?.x ?? 0), Float(position?.y ?? 0))
+    agent.delegate = self
+    return agent
+}</string>
+	<key>IDECodeSnippetIdentifier</key>
+	<string>1FDF7570-6CFD-4A6B-B94E-F48AEB3CD7FC</string>
+	<key>IDECodeSnippetLanguage</key>
+	<string>Xcode.SourceCodeLanguage.Swift</string>
+	<key>IDECodeSnippetTitle</key>
+	<string>EnemyAgent: Set Up Agent</string>
+	<key>IDECodeSnippetUserSnippet</key>
+	<true/>
+	<key>IDECodeSnippetVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>
