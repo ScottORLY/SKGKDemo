@@ -115,9 +115,10 @@ class SideScrollingScene: SKScene, SKPhysicsContactDelegate {
                 let isHalfTile = tileDef?.userData?["halfTile"] as? Bool
                 if isEdgeTile ?? false {
                     var tileSize = tileDef?.size
+                    let height = tileSize?.height ?? 0
                     var center = tileMap?.centerOfTile(atColumn: col, row: row)
                     if isHalfTile ?? false {
-                        tileSize?.height = (tileSize?.height)! / 2
+                        tileSize?.height = height / 2
                     }
                     else {
                         center?.y -= 32.0
