@@ -7,13 +7,17 @@ class PlayerCharacterComponent: GKComponent, GKAgentDelegate {
     
     override init() {
         super.init()
-        playerAgent?.delegate = self
-        let behavior = GKBehavior()
-        playerAgent?.behavior = behavior
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        playerAgent?.delegate = self
+        let behavior = GKBehavior()
+        playerAgent?.behavior = behavior
+    }
+
+    override class var supportsSecureCoding: Bool {
+        true
     }
     
     func moveTowards(dx: CGFloat, dy: CGFloat) {

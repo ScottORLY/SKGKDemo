@@ -2,7 +2,7 @@ import GameplayKit
 import SpriteKit
 
 class CharacterState: GKState {
-    
+
     weak var node: SKSpriteNode?
     weak var agent: GKAgent2D?
     
@@ -20,7 +20,7 @@ class CharacterState: GKState {
 }
 
 class SeekingState: CharacterState {
-    
+
     override func didEnter(from previousState: GKState?) {
        agent?.behavior?.setWeight(1, for: seekGoal)
     }

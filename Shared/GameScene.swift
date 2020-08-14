@@ -3,10 +3,18 @@ import SpriteKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     static var gkScene: GKScene?
-    
+
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+
+    override class var supportsSecureCoding: Bool {
+        true
+    }
+
     class func newGameScene() -> SKScene {
         
-        guard let gkscene = GKScene(fileNamed: "GameScene") else {
+        guard let gkscene = GKScene(fileNamed: "NewNew") else {
             abort()
         }
         

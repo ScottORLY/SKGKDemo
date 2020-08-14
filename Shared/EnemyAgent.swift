@@ -12,6 +12,10 @@ class EnemyAgent: GKComponent, GKAgentDelegate {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
+
+    override class var supportsSecureCoding: Bool {
+        true
+    }
     
     override func update(deltaTime seconds: TimeInterval) {
         if playerState?.currentState is PowerupState {

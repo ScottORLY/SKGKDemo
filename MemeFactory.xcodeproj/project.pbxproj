@@ -42,6 +42,9 @@
 		AEDF96F01DC4224E00777147 /* EnemyAgent.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0BFD8E1DC3DD9C000285E7 /* EnemyAgent.swift */; };
 		AEDF96F11DC4224E00777147 /* EnemyAgent.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0BFD8E1DC3DD9C000285E7 /* EnemyAgent.swift */; };
 		AEF5A2A31DC26B3600373A0D /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEF5A2A21DC26B3600373A0D /* Camera.swift */; };
+		D2489AA724E6630700BFCD31 /* NewNew.sks in Resources */ = {isa = PBXBuildFile; fileRef = D2489AA624E6630700BFCD31 /* NewNew.sks */; };
+		D2489AA824E6630700BFCD31 /* NewNew.sks in Resources */ = {isa = PBXBuildFile; fileRef = D2489AA624E6630700BFCD31 /* NewNew.sks */; };
+		D2489AA924E6630700BFCD31 /* NewNew.sks in Resources */ = {isa = PBXBuildFile; fileRef = D2489AA624E6630700BFCD31 /* NewNew.sks */; };
 		D277247F1E24987300C4C516 /* GroundTiles.sks in Resources */ = {isa = PBXBuildFile; fileRef = AEDB0DC81DC01F450010E520 /* GroundTiles.sks */; };
 		D29C964B1E255C2E00B10B74 /* PlayerState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D29C964A1E255C2E00B10B74 /* PlayerState.swift */; };
 		D29C964C1E255CCC00B10B74 /* PlayerState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D29C964A1E255C2E00B10B74 /* PlayerState.swift */; };
@@ -87,6 +90,7 @@
 		AEDB0DC81DC01F450010E520 /* GroundTiles.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GroundTiles.sks; sourceTree = "<group>"; };
 		AEDF96E61DC40C2C00777147 /* CharacterState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CharacterState.swift; sourceTree = "<group>"; };
 		AEF5A2A21DC26B3600373A0D /* Camera.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Camera.swift; sourceTree = "<group>"; };
+		D2489AA624E6630700BFCD31 /* NewNew.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = NewNew.sks; sourceTree = "<group>"; };
 		D29C964A1E255C2E00B10B74 /* PlayerState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerState.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -127,6 +131,7 @@
 			isa = PBXGroup;
 			children = (
 				AEDB0D5C1DC01E960010E520 /* GameScene.sks */,
+				D2489AA624E6630700BFCD31 /* NewNew.sks */,
 			);
 			name = "SKS FIles";
 			sourceTree = "<group>";
@@ -318,6 +323,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AEDB0DC91DC01F450010E520 /* GroundTiles.sks in Resources */,
+				D2489AA724E6630700BFCD31 /* NewNew.sks in Resources */,
 				AEDB0DA91DC01E960010E520 /* GameScene.sks in Resources */,
 				AEDB0D6C1DC01E960010E520 /* Main.storyboard in Resources */,
 				AEDB0D6F1DC01E960010E520 /* LaunchScreen.storyboard in Resources */,
@@ -330,6 +336,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AEDB0D961DC01E960010E520 /* Main.storyboard in Resources */,
+				D2489AA824E6630700BFCD31 /* NewNew.sks in Resources */,
 				AEDB0DAB1DC01E960010E520 /* GameScene.sks in Resources */,
 				AEDB0DB31DC01E960010E520 /* Assets.xcassets in Resources */,
 			);
@@ -342,6 +349,7 @@
 				AEDB0DA41DC01E960010E520 /* Main.storyboard in Resources */,
 				AEDB0DAC1DC01E960010E520 /* GameScene.sks in Resources */,
 				D277247F1E24987300C4C516 /* GroundTiles.sks in Resources */,
+				D2489AA924E6630700BFCD31 /* NewNew.sks in Resources */,
 				AEDB0DB41DC01E960010E520 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
