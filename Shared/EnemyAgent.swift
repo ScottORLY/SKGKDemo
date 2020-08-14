@@ -1,7 +1,11 @@
 import GameplayKit
 
 class EnemyAgent: GKComponent, GKAgentDelegate {
-    
+
+    lazy var node: SKNode? = {
+        entity?.component(ofType: GKSKNodeComponent.self)?.node
+    }()
+
     var stateMachine: GKStateMachine?
     var playerState: GKStateMachine?
     

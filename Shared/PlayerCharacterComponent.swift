@@ -2,7 +2,11 @@ import GameplayKit
 import SpriteKit
 
 class PlayerCharacterComponent: GKComponent, GKAgentDelegate {
-    
+
+    lazy var node: SKNode? = {
+        entity?.component(ofType: GKSKNodeComponent.self)?.node
+    }()
+
     var playerAgent: GKAgent2D? = GKAgent2D()
     
     override init() {

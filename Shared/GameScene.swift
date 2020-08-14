@@ -22,11 +22,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             print("Failed to load GameScene.sks")
             abort()
         }
-        
-        for entity in gkscene.entities {
-            entity.addComponent(entity.component(ofType: GKSKNodeComponent.self)!)
-        }
-        
+
         gkScene = gkscene
         scene.scaleMode = .aspectFill
         scene.physicsWorld.contactDelegate = scene

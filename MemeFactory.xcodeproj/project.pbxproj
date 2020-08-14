@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		AE0BFD8D1DC3D6F8000285E7 /* GKComponentExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0BFD8C1DC3D6F8000285E7 /* GKComponentExtension.swift */; };
 		AE0BFD8F1DC3DD9D000285E7 /* EnemyAgent.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0BFD8E1DC3DD9C000285E7 /* EnemyAgent.swift */; };
 		AE74081F1DC13D5F00292E40 /* PlayerCharacterComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE74081E1DC13D5F00292E40 /* PlayerCharacterComponent.swift */; };
 		AE7408211DC13D5F00292E40 /* PlayerCharacterComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE74081E1DC13D5F00292E40 /* PlayerCharacterComponent.swift */; };
@@ -33,15 +32,10 @@
 		AEDB0DB41DC01E960010E520 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AEDB0D5E1DC01E960010E520 /* Assets.xcassets */; };
 		AEDB0DC91DC01F450010E520 /* GroundTiles.sks in Resources */ = {isa = PBXBuildFile; fileRef = AEDB0DC81DC01F450010E520 /* GroundTiles.sks */; };
 		AEDF96E71DC40C2C00777147 /* CharacterState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEDF96E61DC40C2C00777147 /* CharacterState.swift */; };
-		AEDF96E81DC421F300777147 /* GKComponentExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0BFD8C1DC3D6F8000285E7 /* GKComponentExtension.swift */; };
-		AEDF96E91DC421F300777147 /* GKComponentExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0BFD8C1DC3D6F8000285E7 /* GKComponentExtension.swift */; };
-		AEDF96EA1DC421F900777147 /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEF5A2A21DC26B3600373A0D /* Camera.swift */; };
-		AEDF96EB1DC421FA00777147 /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEF5A2A21DC26B3600373A0D /* Camera.swift */; };
 		AEDF96EC1DC4220D00777147 /* CharacterState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEDF96E61DC40C2C00777147 /* CharacterState.swift */; };
 		AEDF96ED1DC4220E00777147 /* CharacterState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEDF96E61DC40C2C00777147 /* CharacterState.swift */; };
 		AEDF96F01DC4224E00777147 /* EnemyAgent.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0BFD8E1DC3DD9C000285E7 /* EnemyAgent.swift */; };
 		AEDF96F11DC4224E00777147 /* EnemyAgent.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0BFD8E1DC3DD9C000285E7 /* EnemyAgent.swift */; };
-		AEF5A2A31DC26B3600373A0D /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEF5A2A21DC26B3600373A0D /* Camera.swift */; };
 		D2489AA724E6630700BFCD31 /* NewNew.sks in Resources */ = {isa = PBXBuildFile; fileRef = D2489AA624E6630700BFCD31 /* NewNew.sks */; };
 		D2489AA824E6630700BFCD31 /* NewNew.sks in Resources */ = {isa = PBXBuildFile; fileRef = D2489AA624E6630700BFCD31 /* NewNew.sks */; };
 		D2489AA924E6630700BFCD31 /* NewNew.sks in Resources */ = {isa = PBXBuildFile; fileRef = D2489AA624E6630700BFCD31 /* NewNew.sks */; };
@@ -65,7 +59,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		AE0BFD8C1DC3D6F8000285E7 /* GKComponentExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GKComponentExtension.swift; sourceTree = "<group>"; };
 		AE0BFD8E1DC3DD9C000285E7 /* EnemyAgent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnemyAgent.swift; sourceTree = "<group>"; };
 		AE74081E1DC13D5F00292E40 /* PlayerCharacterComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerCharacterComponent.swift; sourceTree = "<group>"; };
 		AEDB0D5C1DC01E960010E520 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -89,7 +82,6 @@
 		AEDB0DA51DC01E960010E520 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AEDB0DC81DC01F450010E520 /* GroundTiles.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GroundTiles.sks; sourceTree = "<group>"; };
 		AEDF96E61DC40C2C00777147 /* CharacterState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CharacterState.swift; sourceTree = "<group>"; };
-		AEF5A2A21DC26B3600373A0D /* Camera.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Camera.swift; sourceTree = "<group>"; };
 		D2489AA624E6630700BFCD31 /* NewNew.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = NewNew.sks; sourceTree = "<group>"; };
 		D29C964A1E255C2E00B10B74 /* PlayerState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerState.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -140,7 +132,6 @@
 			isa = PBXGroup;
 			children = (
 				AE74081E1DC13D5F00292E40 /* PlayerCharacterComponent.swift */,
-				AE0BFD8C1DC3D6F8000285E7 /* GKComponentExtension.swift */,
 				AE0BFD8E1DC3DD9C000285E7 /* EnemyAgent.swift */,
 			);
 			name = Components;
@@ -164,7 +155,6 @@
 				AE4A16EC1DC2D3DE001DA970 /* SKS FIles */,
 				AE7408291DC1432D00292E40 /* Components */,
 				AEDB0D5D1DC01E960010E520 /* GameScene.swift */,
-				AEF5A2A21DC26B3600373A0D /* Camera.swift */,
 				AEDB0D5E1DC01E960010E520 /* Assets.xcassets */,
 				AEDF96E61DC40C2C00777147 /* CharacterState.swift */,
 				D29C964A1E255C2E00B10B74 /* PlayerState.swift */,
@@ -365,8 +355,6 @@
 				D29C964B1E255C2E00B10B74 /* PlayerState.swift in Sources */,
 				AEDB0DAD1DC01E960010E520 /* GameScene.swift in Sources */,
 				AEDF96E71DC40C2C00777147 /* CharacterState.swift in Sources */,
-				AE0BFD8D1DC3D6F8000285E7 /* GKComponentExtension.swift in Sources */,
-				AEF5A2A31DC26B3600373A0D /* Camera.swift in Sources */,
 				AEDB0D691DC01E960010E520 /* GameViewController.swift in Sources */,
 				AE74081F1DC13D5F00292E40 /* PlayerCharacterComponent.swift in Sources */,
 				AEDB0D671DC01E960010E520 /* AppDelegate.swift in Sources */,
@@ -379,10 +367,8 @@
 			files = (
 				AEDF96EC1DC4220D00777147 /* CharacterState.swift in Sources */,
 				D29C964D1E255CCD00B10B74 /* PlayerState.swift in Sources */,
-				AEDF96E81DC421F300777147 /* GKComponentExtension.swift in Sources */,
 				AEDF96F01DC4224E00777147 /* EnemyAgent.swift in Sources */,
 				AEDB0DAF1DC01E960010E520 /* GameScene.swift in Sources */,
-				AEDF96EA1DC421F900777147 /* Camera.swift in Sources */,
 				AEDB0D931DC01E960010E520 /* GameViewController.swift in Sources */,
 				AE7408211DC13D5F00292E40 /* PlayerCharacterComponent.swift in Sources */,
 				AEDB0D911DC01E960010E520 /* AppDelegate.swift in Sources */,
@@ -395,10 +381,8 @@
 			files = (
 				AEDF96ED1DC4220E00777147 /* CharacterState.swift in Sources */,
 				D29C964C1E255CCC00B10B74 /* PlayerState.swift in Sources */,
-				AEDF96E91DC421F300777147 /* GKComponentExtension.swift in Sources */,
 				AEDF96F11DC4224E00777147 /* EnemyAgent.swift in Sources */,
 				AEDB0DB01DC01E960010E520 /* GameScene.swift in Sources */,
-				AEDF96EB1DC421FA00777147 /* Camera.swift in Sources */,
 				AEDB0DA11DC01E960010E520 /* GameViewController.swift in Sources */,
 				AE7408221DC13D5F00292E40 /* PlayerCharacterComponent.swift in Sources */,
 				AEDB0D9F1DC01E960010E520 /* AppDelegate.swift in Sources */,
